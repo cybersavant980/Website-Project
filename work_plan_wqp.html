@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Quality Monitoring</title>
+
+    <!-- Internal CSS -->
+    <style>
+        html,body{
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 10px;
+            padding: 0;
+            height: 100%;
+            
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: darkblue;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-style: inset;
+            border-color: gold;
+        }
+        nav ul {
+        list-style: none;
+        padding: 0;
+        }
+
+        nav ul li {
+        display: inline;
+        margin-right: 10px;
+        }
+
+        nav ul li a {
+        color: deeppink;
+        text-decoration: none;
+        }
+        header h1 {
+            margin: 0;
+        }
+        section {
+            margin-top: 20px;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #chart-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+        /* Button Style */
+        .update-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .update-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1>Water Quality Monitoring</h1>
+            <nav>
+                <ul>
+                     <li class="nav"><a href="work_plan_index.html"><u>Home</u></a></li>
+                 </ul>
+            </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <section>
+        <h2>Water Quality Data</h2>
+        <div id="chart-container">
+            <canvas id="waterQualityChart"></canvas>
+            <button class="update-button" id="updateDataBtn">Live Update</button>
+
+        </div>
+    </section>
+     <!-- Footer -->
+     <footer>
+        &copy; 2024 Water Pollution Monitoring System. All rights reserved.
+    </footer>
+
+    <!-- Internal JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('waterQualityChart').getContext('2d');
+
+            // Sample water quality data
+            const waterQualityData = {
+                labels: ['Location 1', 'Location 2', 'Location 3', 'Location 4'],
+                datasets: [{
+                    label: 'pH Level',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: [7.2, 6.8, 7.4, 7.1]
+                }]
+            };
+
+            // Chart configuration
+            const config = {
+                type: 'bar',
+                data: waterQualityData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    animation: {
+                        duration: 2000, // 2-second animation
+                        easing: 'easeInOutBounce'   
+                    }
+
+                    }
+            };
+
+            // Create the chart
+            new Chart(ctx, config);
+        });
+        // Function to update the chart with random data (live update simulation)
+        function updateChartData() {
+                waterQualityChart.data.datasets[0].data = Array(4).fill().map(() => (Math.random() * 3 + 6).toFixed(2)); // Random pH levels
+                waterQualityChart.update();
+        }
+
+        // Add event listener for the "Live Update" button
+        document.getElementById('updateDataBtn').addEventListener('click', updateChartData);
+
+    </script>
+</body>
+</html>

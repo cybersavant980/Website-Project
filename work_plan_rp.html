@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Problem</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+
+    <!-- <script src="chart.js"></script>
+    <script src="app.js"></script> -->
+    <style>
+        * {
+        margin: 10px;
+        padding: 0;
+        box-sizing: border-box;
+        }
+        html,body{
+            height: 100%;
+        }
+        footer {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        margin-top: auto; /* Push the footer to the bottom */
+    
+
+
+        }
+        header {
+        background-color: darkblue;
+        color: white;
+        padding: 10px ;
+        text-align: center;
+        border-style: inset;
+        border-color: gold;
+        }
+        nav ul {
+        list-style: none;
+        padding: 0;
+        }
+
+        nav ul li {
+        display: inline;
+        margin-right: 10px;
+        }
+
+        nav ul li a {
+        color: deeppink;
+        text-decoration: none;
+        }
+
+        body{
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color:bisque;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        }
+        .a1 {
+        border-style:inset;
+        border-color:brown;
+        padding: 5px
+        }
+        form {
+        display: flex;
+        flex-direction: column;
+        }
+
+        form label, form input, form textarea {
+        margin-bottom: 10px;
+        }
+        #location{
+            height: 50px;
+            padding: 5px;
+        }
+        #description{
+            height: 250px;
+            font-size: large;
+            padding: 5px;
+        }
+        #b1{
+            height: 40px;
+            font-size: 20px;
+        }
+        #photo{
+            height: 40px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Report Section -->
+    <section id="report">
+        <header>
+        <h2>Report Water Pollution</h2>
+            <nav>
+                <ul>
+                    <li class="nav"><a href="work_plan_index.html"><u>Home</u></a></li>
+                </ul>
+            </nav>
+        </header>
+        <br>
+        <form id="reportForm" action="https://script.google.com/macros/s/AKfycbwNhEXcKIdgvakbUyiQlyFzrtdVZ3zvbwfCQ_o7Batl7ZmXQxXrJXOT0aer8QgW2pmO/exec" method="POST" enctype="multipart/form-data">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            
+            <label for="photo">Upload Photo:</label>
+            <input type="file" id="photo" name="photo" accept=".jpg, .jpeg, .png">
+            
+            <button id="b1" type="submit">Submit Report</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2024 Water Pollution Website. All rights reserved.</p>
+    </footer>
+    <button id="backToTop" style="display: none; position: fixed; bottom: 20px; right: 30px; background-color:aqua; color: black; border: none; border-radius: 5px; padding: 10px;">↑</button>
+    
+    <script>
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+    
+            const location = document.getElementById('location').value;
+            const description = document.getElementById('description').value;
+            const photo = document.getElementById('photo').value;
+    
+            // Simple validation
+            if (location && description && photo) {
+                alert(`Report submitted!!\nLocation: ${location}\nDescription: ${description}\nThank You For Submitting The Report`);
+                this.reset(); // Reset the form fields
+            } else {
+                alert("Please fill in all required fields.");
+            }
+        });
+   
+        const backToTopButton = document.getElementById("backToTop");
+    
+        window.addEventListener("scroll", function() {
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = "block"; // Show button
+            } else {
+                backToTopButton.style.display = "none"; // Hide button
+            }
+        });
+    
+        backToTopButton.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        const form = document.querySelector("form");
+        const submitButton = document.querySelector("button");
+
+        form.addEventListener('submit', e => {
+        submitButton.disabled = true;
+        e.preventDefault();
+        let requestBody = new FormData(form);
+        fetch('https://script.google.com/macros/s/AKfycbwNhEXcKIdgvakbUyiQlyFzrtdVZ3zvbwfCQ_o7Batl7ZmXQxXrJXOT0aer8QgW2pmO/exec', { method: 'POST', body: requestBody })
+            .then(response => response.json())
+            .then(data => {
+            alert('Success! Row: ' + data.row);
+            submitButton.disabled = false;
+            })
+            .catch(error => {
+            alert('Error! ' + error.message);
+            submitButton.disabled = false;
+            });
+});
+    
+    </script>
+    
+    
+    
+</body>
+</html>
